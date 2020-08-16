@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd">
+
+  <!--引入properties-->
+<context:property-placeholder location="classpath:config/c3p0.properties"/>
+
+    <!--配置数据源,连接池使用的是成c3p0-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driverClassName}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+
+        <!--连接池装配-->
+        <!--最大连接数-->
+        <property name="maxPoolSize" value="30"/>
+        <!--最小连接数-->
+        <property name="minPoolSize" value="10"/>
+        <!--关闭连接后不会自动提交-->
+        <property name="autoCommitOnClose" value="false"/>
+        <!--获取连接超时时间为10秒-->
+        <property name="checkoutTimeout" value="100000"/>
+        <!--获取连接失败重试次数-->
+        <property name="acquireRetryAttempts" value="2"/>
+    </bean>
+    <!--配置SQLsessionFactory-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--配置数据源-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--配置mybatis核心配置文件-->
+        <property name="configLocation" value="classpath:config/mybatis-config.xml"/>
+        <!--配置SQLmapper映射文件-->
+        <property name="mapperLocations" value="classpath:mapper/SqlMapper.xml"/>
+    </bean>
+
+    <!--配置自动装配Dao-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--配置需要扫描的包-->
+        <property name="basePackage" value="com.wf.Dao"/>
+        <!--配置sqlsessionFactory对象-->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+</beans>
