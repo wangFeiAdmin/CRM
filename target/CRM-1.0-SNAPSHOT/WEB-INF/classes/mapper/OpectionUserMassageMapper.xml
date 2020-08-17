@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--绑定资源路径-->
+<mapper namespace="com.wf.Dao.OpectionUserMassageDao">
+
+    <!--查询指定用户是否存在-->
+    <select id="selectUser" parameterType="User" resultType="User">
+        SELECT
+                id,
+                loginAct,
+                NAME,
+                loginPwd,
+                email,
+                expireTime,
+                lockState,
+                deptno,
+                allowIps,
+                createTime,
+                createBy,
+                editTime,
+                editBy
+        FROM
+	            tbl_user
+        WHERE
+	            loginAct LIKE #{loginAct}
+	    AND loginPwd LIKE #{loginPwd}
+    </select>
+</mapper>

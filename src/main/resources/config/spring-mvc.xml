@@ -8,6 +8,15 @@
        http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/mvc
        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--配置拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.wf.Interceptor.IllegalInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
     <!--配置注解扫描包-->
     <context:component-scan base-package="com.wf"/>
     <!--配置注解驱动-->
@@ -18,7 +27,7 @@
     <!--配置视图解析-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <!--配置前缀-->
-        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="prefix" value="/workbench/"/>
         <!--配置后缀-->
         <property name="suffix" value=".jsp"/>
     </bean>

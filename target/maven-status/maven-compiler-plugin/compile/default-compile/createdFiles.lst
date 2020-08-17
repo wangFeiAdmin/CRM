@@ -1,0 +1,9 @@
+com\wf\Dao\OpectionUserMassageDao.class
+com\wf\Util\CreateUUID.class
+com\wf\Controller\OpectionUserMassage.class
+com\wf\Util\OperationPassword.class
+com\wf\Service\OpectionUserMassageService.class
+com\wf\Exception\LoginMassageIllicitException.class
+com\wf\ServiceImpl\OpectionUserMassageServiceImpl.class
+com\wf\Bean\User.class
+com\wf\Util\MassageVerify.class
