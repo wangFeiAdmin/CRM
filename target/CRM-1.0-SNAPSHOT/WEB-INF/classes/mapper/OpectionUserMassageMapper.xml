@@ -6,7 +6,7 @@
 <mapper namespace="com.wf.Dao.OpectionUserMassageDao">
 
     <!--查询指定用户是否存在-->
-    <select id="selectUser" parameterType="User" resultType="User">
+    <select id="selectUser" parameterType="User" resultMap="UserMap">
         SELECT
                 id,
                 loginAct,
@@ -27,4 +27,44 @@
 	            loginAct LIKE #{loginAct}
 	    AND loginPwd LIKE #{loginPwd}
     </select>
+    <!--多对一嵌套查询，当前用户对应的部门-->
+    <resultMap id="UserMap" type="User">
+        <result property="id" column="id"/>
+        <result property="loginAct" column="loginAct"/>
+        <result property="name" column="NAME"/>
+        <result property="loginPwd" column="loginPwd"/>
+        <result property="email" column="email"/>
+        <result property="expireTime" column="expireTime"/>
+        <result property="lockState" column="lockState"/>
+        <result property="allowIps" column="allowIps"/>
+        <result property="createTime" column="createTime"/>
+        <result property="createBy" column="createBy"/>
+        <result property="editTime" column="editTime"/>
+        <result property="editBy" column="editBy"/>
+        <association property="dept" column="deptno" javaType="Dept" select="getDept"/>
+    </resultMap>
+    <!--子查询部门表-->
+    <select id="getDept" resultType="Dept">
+        select
+            id,
+            deptNo,
+            deptName,
+            deptfunctionary,
+            deptphone,
+            deptremark
+        from
+            tbl_dept
+        where
+            deptNo=#{deptno}
+    </select>
+
+
+    <update id="updatePas" parameterType="User">
+        UPDATE
+            tbl_user
+        SET
+        loginPwd = #{loginPwd}
+        WHERE
+	    id = #{id}
+    </update>
 </mapper>

@@ -12,4 +12,12 @@ public interface OpectionUserMassageService {
      * @return
      */
     Map<String, Object> verifyLoginMassage(User user);
+
+    /**
+     * 用于对前用户的密码作出修改
+     * @param olderPas
+     * @param newPas
+     * @return
+     */
+    boolean updateUserPassword(String olderPas,String newPas,User user);
 }

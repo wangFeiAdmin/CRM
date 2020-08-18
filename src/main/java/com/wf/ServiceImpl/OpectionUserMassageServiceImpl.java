@@ -9,6 +9,7 @@ import com.wf.Util.OperationPassword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -74,5 +75,33 @@ public class OpectionUserMassageServiceImpl implements OpectionUserMassageServic
         }
 
         return result;
+    }
+
+    /**
+     * 对当前用户的密码作出修改
+     * @param olderPas
+     * @param newPas
+     * @return
+     */
+    @Override
+    @Transactional
+    public boolean updateUserPassword(String olderPas, String newPas,User user) {
+        try {
+            //判断当前用户输入的源密码是否正确
+            if(!OperationPassword.verifyPassword(user.getLoginPwd(), olderPas)){
+                System.out.println("这里这里");
+                return false;
+            }
+            //加密新密码
+            newPas=OperationPassword.getEncryptPassword(newPas);
+            //设置新的密码
+            user.setLoginPwd(newPas);
+            //更改密码
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //返回修改结果
+        return oumd.updatePas(user)>0;
     }
 }

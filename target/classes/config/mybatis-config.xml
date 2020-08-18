@@ -10,7 +10,17 @@
         <setting name="logImpl" value="STDOUT_LOGGING" />
     </settings>
 
+    <!--使用别名代替Bean中的实体类-->
     <typeAliases>
         <package name="com.wf.Bean"/>
     </typeAliases>
+
+    <!--配置分页查询的插件-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!-- 配置所使用的数据库 -->
+            <property name="reasonable" value="mysql"/>
+        </plugin>
+    </plugins>
+
 </configuration>

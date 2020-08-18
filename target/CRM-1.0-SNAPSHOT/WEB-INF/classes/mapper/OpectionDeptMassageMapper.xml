@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--绑定操作部门表的资源路径-->
+<mapper namespace="com.wf.Dao.OpectionDeptMassageDao">
+    <!--分页查询所有用户-->
+    <select id="selectAll" resultType="Dept">
+        SELECT
+                id,
+                deptNo,
+                deptName,
+                deptfunctionary,
+                deptphone,
+                deptremark
+        FROM
+	            tbl_dept
+
+    </select>
+</mapper>

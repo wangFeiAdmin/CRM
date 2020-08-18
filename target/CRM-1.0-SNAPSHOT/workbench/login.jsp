@@ -41,8 +41,13 @@
 
     //用于发送请求对当前用户信息做验证
     function verify(userName, userPas) {
-      $("#fromOne").attr("action","${pageContext.request.contextPath}/verifylogin");
-        $("#fromOne").submit();
+        if(userName==''||userPas==''){
+            $("#msg").html("用户名或密码不能为空");
+        }else{
+            $("#fromOne").attr("action","${pageContext.request.contextPath}/verifylogin");
+              $("#fromOne").submit();
+        }
+
     }
 
 

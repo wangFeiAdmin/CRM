@@ -48,6 +48,47 @@
 
     </script>
 
+    <script>
+        $(function () {
+            //页面初始化结束，登录框自动获得焦点
+            $("#oldP").focus();
+            //当用户名框获得焦点以后清除错误信息
+            $("#oldP,#newP,#trueP").on('focus',function(){
+                $(".err").html("");
+            })
+
+        function  updatePas (olderPas,newPas,affirmPas){
+
+            if(olderPas==''||newPas==''||affirmPas==''){
+                $(".err").html("密码不能为空");
+            }else{
+                //判断两次密码输入的是否一致
+                if(newPas==affirmPas){
+                    $.ajax({
+                        url:"${pageContext.request.contextPath}/update",
+                        data:{
+                            "olderPas":olderPas,
+                            "affirmPas":affirmPas
+                        },
+                        type:"post",
+                        success:function (json) {
+                            if(json.target){
+                                //打开主页重新登录
+                                window.open("workbench/login.jsp");
+                            }else{
+                                $(".err").html("原密码错误");
+                            }
+                        }
+                    })
+                }else{
+                    $(".err").html("两次密码不一致");
+                }
+
+
+            }
+
+        }
+    </script>
 </head>
 <body>
 
@@ -65,7 +106,7 @@
                 <div style="position: relative; left: 40px;">
                     姓名：<b>${sessionScope.User.name}</b><br><br>
                     登录帐号：<b>${sessionScope.User.loginAct}</b><br><br>
-                    组织机构：<b>${sessionScope.User.deptno}</b><br><br>
+                    组织机构：<b>${sessionScope.User.dept.deptName}</b><br><br>
                     邮箱：<b>${sessionScope.User.email}</b><br><br>
                     失效时间：<b>${sessionScope.User.expireTime}</b><br><br>
                     允许访问IP：<b>${sessionScope.User.allowIps}</b>
@@ -79,7 +120,7 @@
 </div>
 
 <!-- 修改密码的模态窗口 -->
-<div class="modal fade" id="editPwdModal" role="dialog">
+<div class="modal fade" id="editPwdModal" role="dialog"  id="xian">
     <div class="modal-dialog" role="document" style="width: 70%;">
         <div class="modal-content">
             <div class="modal-header">
@@ -91,30 +132,39 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="oldPwd" class="col-sm-2 control-label">原密码</label>
+                        <label for="oldPwd"  class="col-sm-2 control-label">原密码</label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control" id="oldPwd" style="width: 200%;">
+                            <input type="text" id="oldP" class="form-control" id="oldPwd" style="width: 200%;">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="newPwd" class="col-sm-2 control-label">新密码</label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control" id="newPwd" style="width: 200%;">
+                            <input type="text" id="newP" class="form-control" id="newPwd" style="width: 200%;">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="confirmPwd" class="col-sm-2 control-label">确认密码</label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control" id="confirmPwd" style="width: 200%;">
+                            <input type="text" id="trueP" class="form-control" id="confirmPwd" style="width: 200%;">
                         </div>
+                    </div>
+                    <div>
+                        <div style="position: absolute; left: 220px; bottom: 3px">
+                             <span class="err" style="color: red">
+
+                             </span>
+                        </div>
+
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
+<%--           更新按钮上的     --%>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="window.location.href='../../login.html';">更新</button>
+                <button type="button" class="btn btn-primary"  id="logButt" data-dismiss="" onclick="updatePas($('#oldP').val(),$('#newP').val(),$('#trueP').val())">更新</button>
             </div>
         </div>
     </div>
@@ -149,9 +199,10 @@
             <li class="dropdown user-dropdown">
                 <a href="javascript:void(0)" style="text-decoration: none; color: white;" class="dropdown-toggle" data-toggle="dropdown">
                     <span class="glyphicon glyphicon-user"></span>${sessionScope.User.loginAct}<span class="caret"></span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="workbench/settings/index.html"><span class="glyphicon glyphicon-wrench"></span> 系统设置</a></li>
+                    <li><a href="${pageContext.request.contextPath}/settings/index.jsp"><span class="glyphicon glyphicon-wrench"></span> 系统设置</a></li>
                     <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myInformation"><span class="glyphicon glyphicon-file"></span> 我的资料</a></li>
                     <li><a href="javascript:void(0)" data-toggle="modal" data-target="#editPwdModal"><span class="glyphicon glyphicon-edit"></span> 修改密码</a></li>
                     <li><a href="javascript:void(0);" data-toggle="modal" data-target="#exitModal"><span class="glyphicon glyphicon-off"></span> 退出</a></li>

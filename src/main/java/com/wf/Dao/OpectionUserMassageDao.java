@@ -13,4 +13,10 @@ public interface OpectionUserMassageDao {
      */
     User selectUser(User user);
 
+    /**
+     * 修改用户的密码
+     * @param user
+     * @return
+     */
+    int  updatePas(User user);
 }

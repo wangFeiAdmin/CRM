@@ -1,10 +1,10 @@
 package com.wf.Bean;
 
+
 import org.springframework.stereotype.Component;
 
 @Component
 public class User {
-
     private String id;//主键
     private String loginAct;//登录账号
     private String name;//用户名
@@ -12,15 +12,14 @@ public class User {
     private String email;//邮箱
     private String expireTime;//失效时间
     private String lockState;//锁定状态
-    private String deptno;//部门编号
+    private Dept dept;//部门编号
     private String allowIps;//允许访问的ip
     private String createTime;//创建时间
     private String createBy;//创建人
     private String editTime;//修改时间
     private String editBy;//修改人
 
-    public User(){}
-    public User(String id, String loginAct, String name, String loginPwd, String email, String expireTime, String lockState, String deptno, String allowIps, String createTime, String createBy, String editTime, String editBy) {
+    public User(String id, String loginAct, String name, String loginPwd, String email, String expireTime, String lockState, Dept dept, String allowIps, String createTime, String createBy, String editTime, String editBy) {
         this.id = id;
         this.loginAct = loginAct;
         this.name = name;
@@ -28,13 +27,15 @@ public class User {
         this.email = email;
         this.expireTime = expireTime;
         this.lockState = lockState;
-        this.deptno = deptno;
+        this.dept = dept;
         this.allowIps = allowIps;
         this.createTime = createTime;
         this.createBy = createBy;
         this.editTime = editTime;
         this.editBy = editBy;
     }
+
+    public User(){}
 
     public String getId() {
         return id;
@@ -92,12 +93,12 @@ public class User {
         this.lockState = lockState;
     }
 
-    public String getDeptno() {
-        return deptno;
+    public Dept getDept() {
+        return dept;
     }
 
-    public void setDeptno(String deptno) {
-        this.deptno = deptno;
+    public void setDept(Dept dept) {
+        this.dept = dept;
     }
 
     public String getAllowIps() {
@@ -150,7 +151,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", expireTime='" + expireTime + '\'' +
                 ", lockState='" + lockState + '\'' +
-                ", deptno='" + deptno + '\'' +
+                ", dept=" + dept +
                 ", allowIps='" + allowIps + '\'' +
                 ", createTime='" + createTime + '\'' +
                 ", createBy='" + createBy + '\'' +
