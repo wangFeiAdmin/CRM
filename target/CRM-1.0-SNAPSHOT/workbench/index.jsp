@@ -53,10 +53,10 @@
             //页面初始化结束，登录框自动获得焦点
             $("#oldP").focus();
             //当用户名框获得焦点以后清除错误信息
-            $("#oldP,#newP,#trueP").on('focus',function(){
+            $("#oldP,#newP,#trueP").on('focus', function () {
                 $(".err").html("");
             })
-
+        })
         function  updatePas (olderPas,newPas,affirmPas){
 
             if(olderPas==''||newPas==''||affirmPas==''){
@@ -88,6 +88,7 @@
             }
 
         }
+
     </script>
 </head>
 <body>

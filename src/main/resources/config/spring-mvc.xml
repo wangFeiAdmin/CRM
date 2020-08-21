@@ -23,7 +23,6 @@
     <mvc:annotation-driven/>
     <!--配置静态资源过滤-->
     <mvc:default-servlet-handler/>
-
     <!--配置视图解析-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <!--配置前缀-->

@@ -27,6 +27,8 @@
 	            loginAct LIKE #{loginAct}
 	    AND loginPwd LIKE #{loginPwd}
     </select>
+
+
     <!--多对一嵌套查询，当前用户对应的部门-->
     <resultMap id="UserMap" type="User">
         <result property="id" column="id"/>
@@ -59,6 +61,7 @@
     </select>
 
 
+    <!--修改指定用户密码-->
     <update id="updatePas" parameterType="User">
         UPDATE
             tbl_user
@@ -67,4 +70,69 @@
         WHERE
 	    id = #{id}
     </update>
+
+    <!--查询所有用户-->
+    <select id="selectAll" resultMap="UserMap">
+        SELECT
+                id,
+                loginAct,
+                NAME,
+                loginPwd,
+                email,
+                expireTime,
+                lockState,
+                deptno,
+                allowIps,
+                createTime,
+                createBy,
+                editTime,
+                editBy
+        FROM
+	            tbl_user
+	  ORDER BY
+	            createTime ASC
+    </select>
+
+    <!--查询所有部门名称-->
+    <select id="selectDeptName" resultType="map">
+        SELECT
+                deptNo,
+	            deptName
+        FROM
+	            tbl_dept
+    </select>
+
+    <!--添加一个新的用户-->
+    <insert id="addUser" parameterType="User">
+        INSERT INTO
+                tbl_user
+        VALUES
+	        (
+                   #{id},
+                   #{loginAct},
+                   #{name},
+                   #{loginPwd},
+                   #{email},
+                   #{expireTime},
+                   #{lockState},
+                   #{deptno},
+                   #{allowIps},
+                   #{createTime},
+                   #{createBy},
+                   #{editTime},
+                   #{editBy}
+	        )
+    </insert>
+
+    <delete id="deleteUser" parameterType="String">
+        DELETE
+        FROM
+	            tbl_user
+        WHERE
+	            id IN
+	    <foreach collection="array" item="id" open="("   close=")" separator=",">
+            #{id}
+        </foreach>
+
+    </delete>
 </mapper>

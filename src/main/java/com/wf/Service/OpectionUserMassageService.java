@@ -1,8 +1,11 @@
 package com.wf.Service;
 
 
+import com.wf.Bean.Dept;
+import com.wf.Bean.Page;
 import com.wf.Bean.User;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -20,4 +23,32 @@ public interface OpectionUserMassageService {
      * @return
      */
     boolean updateUserPassword(String olderPas,String newPas,User user);
+
+    /**
+     * 用于查询所有的用户
+     * @param page
+     * @return
+     */
+    Page<User> selectUsertAll(Page<User> page);
+
+
+    /**
+     * 查询所有部门名称
+     * @return
+     */
+    List<Map<String,String>> selectDeptNameAll();
+
+    /**
+     * 添加一个新的用户
+     * @param user
+     * @return
+     */
+    boolean createUser(User user);
+
+    /**
+     * 删除用户
+     * @param userids
+     * @return
+     */
+    boolean deleteUsers(String[] userids);
 }

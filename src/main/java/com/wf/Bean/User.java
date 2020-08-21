@@ -12,28 +12,15 @@ public class User {
     private String email;//邮箱
     private String expireTime;//失效时间
     private String lockState;//锁定状态
-    private Dept dept;//部门编号
+    private Dept   dept;//部门编号
     private String allowIps;//允许访问的ip
     private String createTime;//创建时间
     private String createBy;//创建人
     private String editTime;//修改时间
     private String editBy;//修改人
+    private String deptno;//部门编号
 
-    public User(String id, String loginAct, String name, String loginPwd, String email, String expireTime, String lockState, Dept dept, String allowIps, String createTime, String createBy, String editTime, String editBy) {
-        this.id = id;
-        this.loginAct = loginAct;
-        this.name = name;
-        this.loginPwd = loginPwd;
-        this.email = email;
-        this.expireTime = expireTime;
-        this.lockState = lockState;
-        this.dept = dept;
-        this.allowIps = allowIps;
-        this.createTime = createTime;
-        this.createBy = createBy;
-        this.editTime = editTime;
-        this.editBy = editBy;
-    }
+
 
     public User(){}
 
@@ -141,6 +128,14 @@ public class User {
         this.editBy = editBy;
     }
 
+    public String getDeptno() {
+        return deptno;
+    }
+
+    public void setDeptno(String deptno) {
+        this.deptno = deptno;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -157,6 +152,7 @@ public class User {
                 ", createBy='" + createBy + '\'' +
                 ", editTime='" + editTime + '\'' +
                 ", editBy='" + editBy + '\'' +
+                ", deptno='" + deptno + '\'' +
                 '}';
     }
 }

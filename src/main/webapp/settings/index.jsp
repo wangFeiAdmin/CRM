@@ -149,7 +149,7 @@
              -->
             <a href="${pageContext.request.contextPath}/dept/selectAll">部门管理</a>
             <br>
-            <a href="qx/index.html">权限管理</a>
+            <a href="${pageContext.request.contextPath}/selectAll">权限管理</a>
         </div>
 
         <div style="position: relative; width: 33%; height: 50%; left: 33%; top: -100%">

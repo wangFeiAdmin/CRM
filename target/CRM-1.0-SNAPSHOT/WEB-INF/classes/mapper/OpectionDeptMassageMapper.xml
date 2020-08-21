@@ -13,8 +13,81 @@
                 deptfunctionary,
                 deptphone,
                 deptremark
+
         FROM
 	            tbl_dept
-
+        order by deptaddtime desc
     </select>
+        <!--用于查询部门编号，判断是否重复-->
+    <select id="selectCode" parameterType="Dept" resultType="Dept">
+          SELECT
+                deptNo
+        FROM
+	            tbl_dept
+	    where
+	            deptNo=#{deptNo}
+    </select>
+
+    <!--添加一个部门-->
+    <insert id="addDept" parameterType="Dept">
+        INSERT INTO
+                tbl_dept
+        VALUES
+	            (
+	        #{id},
+            #{deptNo},
+            #{deptName},
+            #{deptfunctionary},
+            #{deptphone},
+            #{deptremark},
+            null
+	               )
+
+
+    </insert>
+
+
+    <!--查询一个指定的部门-->
+    <select id="selectDept" parameterType="Dept" resultType="Dept">
+        SELECT
+                id,
+                deptNo,
+                deptName,
+                deptfunctionary,
+                deptphone,
+                deptremark
+
+        FROM
+	            tbl_dept
+	    where
+	            id=#{id}
+    </select>
+
+    <!--修改部门表-->
+    <update id="updateDept" parameterType="Dept">
+        UPDATE tbl_dept
+        SET
+                deptNo = #{deptNo},
+                deptName = #{deptName},
+                deptfunctionary = #{deptfunctionary},
+                deptphone = #{deptphone},
+                deptremark = #{deptremark}
+        WHERE
+	            id = #{id}
+    </update>
+
+    <!--删除部门-->
+    <delete id="deleteDept" parameterType="String">
+        DELETE
+        FROM
+	            tbl_dept
+        WHERE
+        id
+        IN
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+
+
+    </delete>
 </mapper>

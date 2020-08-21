@@ -8,7 +8,6 @@ import java.util.List;
 public class Page<T> {
     private Integer pageSize=10;//页面默显示显示记录条数
     private Integer pageno=1;//当前页码
-    private Integer limitIndex;//分页查询起始页码
     private Long total=0L;//总记录数
     private Integer pages=0;//总页数
     private List<T> list;//装载信息
@@ -39,7 +38,7 @@ public class Page<T> {
 
     public void setPageSize(Integer pageSize) {
         //设置分页查询起始下标
-        this.limitIndex=(pageno-1)*pageSize;
+
         this.pageSize = pageSize;
     }
 
@@ -49,14 +48,33 @@ public class Page<T> {
 
     public void setPageno(Integer pageno) {
         //设置分页查询起始下标
-        this.limitIndex=(pageno-1)*pageSize;
+
         this.pageno = pageno;
     }
 
-    public Integer getLimitIndex() {
-        return limitIndex;
-    }
 
+    public  void setHaspreviousPageAndHasNextPage(){
+        Integer pages = this.pages;//获取总页数
+        Integer pageno = this.pageno;//获取当前页码 2
+        //当前页码等于总页数
+        if (pageno == 1 && pageno == pages) {
+            //即没有上一页也没有下一页
+           this.haspreviousPage=false;//没前一页
+            this.hasNextPage=false;//没有下一页
+        }else if (pageno==1&&pageno < pages) {
+            //应该有下一页和尾页
+            this.haspreviousPage=false;//没前一页
+            this.hasNextPage=true;//有下一页
+        } else if (pageno < pages) {
+            //应该有下一页和尾页
+            this.haspreviousPage=true;//没前一页
+            this.hasNextPage=true;//有下一页
+        } else if (pageno != 1 && pageno == pages) {
+            //应该有上一页和首页
+            this.haspreviousPage=true;//没前一页
+            this.hasNextPage=false;//没有下一页
+        }
+    }
 
 
     public Long getTotal() {
@@ -88,7 +106,6 @@ public class Page<T> {
         return "Page{" +
                 "pageSize=" + pageSize +
                 ", pageno=" + pageno +
-                ", limitIndex=" + limitIndex +
                 ", total=" + total +
                 ", pages=" + pages +
                 ", list=" + list +
