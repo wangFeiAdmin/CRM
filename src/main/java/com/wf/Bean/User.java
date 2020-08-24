@@ -3,6 +3,9 @@ package com.wf.Bean;
 
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Component
 public class User {
     private String id;//主键
@@ -19,8 +22,43 @@ public class User {
     private String editTime;//修改时间
     private String editBy;//修改人
     private String deptno;//部门编号
+    private String recordSize;// user表记录的总条数
+    private String olderPas;//旧密码
+    private String olderPasTwo;//旧密码
 
+    public String getOlderPasTwo() {
+        return olderPasTwo;
+    }
 
+    public void setOlderPasTwo(String olderPasTwo) {
+        this.olderPasTwo = olderPasTwo;
+    }
+
+    public String getOlderPas() {
+        return olderPas;
+    }
+
+    public void setOlderPas(String olderPas) {
+        this.olderPas = olderPas;
+    }
+
+    public String getRecordSize() {
+        return recordSize;
+    }
+
+    public void setRecordSize(String recordSize) {
+        this.recordSize = recordSize;
+    }
+
+    private Map<String, String> massage=new HashMap<>();
+
+    public Map<String, String> getMassage() {
+        return massage;
+    }
+
+    public void setMassage(Map<String, String> massage) {
+        this.massage = massage;
+    }
 
     public User(){}
 
@@ -153,6 +191,10 @@ public class User {
                 ", editTime='" + editTime + '\'' +
                 ", editBy='" + editBy + '\'' +
                 ", deptno='" + deptno + '\'' +
+                ", recordSize='" + recordSize + '\'' +
+                ", olderPas='" + olderPas + '\'' +
+                ", olderPasTwo='" + olderPasTwo + '\'' +
+                ", massage=" + massage +
                 '}';
     }
 }

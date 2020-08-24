@@ -2,6 +2,7 @@ D:\IDEXiangMu\testo1\CRM\src\main\java\com\wf\Service\OpectionUserMassageService
 D:\IDEXiangMu\testo1\CRM\src\main\java\com\wf\Dao\OpectionUserMassageDao.java
 D:\IDEXiangMu\testo1\CRM\src\main\java\com\wf\ServiceImpl\OpectionDeptMassageServiceImpl.java
 D:\IDEXiangMu\testo1\CRM\src\main\java\com\wf\ServiceImpl\OpectionUserMassageServiceImpl.java
+D:\IDEXiangMu\testo1\CRM\src\main\java\com\wf\Bean\QueryMassage.java
 D:\IDEXiangMu\testo1\CRM\src\main\java\com\wf\Controller\OpectionDeptMassage.java
 D:\IDEXiangMu\testo1\CRM\src\main\java\com\wf\Exception\LoginMassageIllicitException.java
 D:\IDEXiangMu\testo1\CRM\src\main\java\com\wf\Service\OpectionDeptMassageService.java

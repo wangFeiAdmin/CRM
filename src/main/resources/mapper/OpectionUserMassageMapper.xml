@@ -61,45 +61,42 @@
     </select>
 
 
-    <!--修改指定用户密码-->
+    <!--修改指定用户信息-->
     <update id="updatePas" parameterType="User">
         UPDATE
             tbl_user
-        SET
-        loginPwd = #{loginPwd}
+       <trim prefix="set" suffixOverrides=",">
+           <if test="loginAct!=null and loginAct!='' ">loginAct=#{loginAct},</if>
+           <if test="name!=null and name!='' ">name=#{name},</if>
+           <if test="loginPwd!=null and loginPwd!='' ">loginPwd=#{loginPwd},</if>
+           <if test="email!=null and email!='' ">email=#{email},</if>
+           <if test="expireTime!=null and expireTime!='' ">expireTime=#{expireTime},</if>
+           <if test="lockState!=null and lockState!='' ">lockState=#{lockState},</if>
+           <if test="allowIps!=null and allowIps!='' ">allowIps=#{allowIps},</if>
+           <if test="createTime!=null and createTime!='' ">createTime=#{createTime},</if>
+           <if test="createBy!=null and createBy!='' ">createBy=#{createBy},</if>
+           <if test="editTime!=null and editTime!='' ">editTime=#{editTime},</if>
+           <if test="editBy!=null and editBy!='' ">editBy=#{editBy},</if>
+           <if test="deptno!=null and deptno!='' ">deptno=#{deptno},</if>
+       </trim>
         WHERE
 	    id = #{id}
     </update>
 
-    <!--查询所有用户-->
-    <select id="selectAll" resultMap="UserMap">
-        SELECT
-                id,
-                loginAct,
-                NAME,
-                loginPwd,
-                email,
-                expireTime,
-                lockState,
-                deptno,
-                allowIps,
-                createTime,
-                createBy,
-                editTime,
-                editBy
-        FROM
-	            tbl_user
-	  ORDER BY
-	            createTime ASC
-    </select>
+
 
     <!--查询所有部门名称-->
-    <select id="selectDeptName" resultType="map">
+    <select id="selectDeptName" resultType="map" parameterType="Dept">
         SELECT
                 deptNo,
 	            deptName
         FROM
 	            tbl_dept
+	    <where>
+            <if test="deptName!=null and deptName!='' ">
+                and deptName like '%' #{deptName} '%'
+            </if>
+        </where>
     </select>
 
     <!--添加一个新的用户-->
@@ -135,4 +132,46 @@
         </foreach>
 
     </delete>
+
+    <select id="conditionQuery" resultType="User" resultMap="UserMap">
+        SELECT
+            id,
+            loginAct,
+            name,
+            loginPwd,
+            email,
+            expireTime,
+            lockState,
+            deptno,
+            allowIps,
+            createTime,
+            createBy,
+            editTime,
+            editBy
+        FROM
+        tbl_user
+        <where>
+            <if test="userName!=null and userName!=''">
+                and NAME LIKE '%' #{userName} '%'
+            </if>
+            <if test="deptName!=null and deptName!=''">
+                AND deptno IN ( SELECT deptNo FROM tbl_dept WHERE deptName LIKE '%' #{deptName} '%')
+            </if>
+            <if test="lockState!=null and lockState!=''">
+                AND lockState = #{lockState}
+            </if>
+            <if test="startTime!=null and startTime!=''">
+                AND STR_TO_DATE( expireTime, &apos; %Y-%m-%d %H:%i:%s &apos; )
+                    &gt;
+                    STR_TO_DATE( #{startTime},&apos; %Y-%m-%d %H:%i:%s &apos; )
+            </if>
+            <if test="endTime!=null and endTime!=''">
+                AND STR_TO_DATE( expireTime, &apos; %Y-%m-%d %H:%i:%s &apos; )
+                    &lt;
+                    STR_TO_DATE( #{endTime},&apos; %Y-%m-%d %H:%i:%s &apos;)
+            </if>
+        </where>
+        order by STR_TO_DATE( createTime, &apos; %Y-%m-%d %H:%i:%s &apos; ) desc
+
+    </select>
 </mapper>

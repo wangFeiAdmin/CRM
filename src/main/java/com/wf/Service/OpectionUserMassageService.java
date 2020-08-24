@@ -3,6 +3,7 @@ package com.wf.Service;
 
 import com.wf.Bean.Dept;
 import com.wf.Bean.Page;
+import com.wf.Bean.QueryMassage;
 import com.wf.Bean.User;
 
 import java.util.List;
@@ -18,25 +19,19 @@ public interface OpectionUserMassageService {
 
     /**
      * 用于对前用户的密码作出修改
-     * @param olderPas
-     * @param newPas
+     *
+     *
      * @return
      */
-    boolean updateUserPassword(String olderPas,String newPas,User user);
+    boolean updateUserPassword(User user);
 
-    /**
-     * 用于查询所有的用户
-     * @param page
-     * @return
-     */
-    Page<User> selectUsertAll(Page<User> page);
 
 
     /**
      * 查询所有部门名称
      * @return
      */
-    List<Map<String,String>> selectDeptNameAll();
+    List<Map<String,String>> selectDeptNameAll(Dept dept);
 
     /**
      * 添加一个新的用户
@@ -51,4 +46,13 @@ public interface OpectionUserMassageService {
      * @return
      */
     boolean deleteUsers(String[] userids);
+
+
+    /**
+     * 条件查询用户
+     * @param massage
+     * @param massage
+     * @return
+     */
+    QueryMassage<User> conditionQuery(QueryMassage<User> massage);
 }

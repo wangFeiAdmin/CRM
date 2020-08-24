@@ -1,5 +1,7 @@
 package com.wf.Dao;
 
+import com.wf.Bean.Dept;
+import com.wf.Bean.QueryMassage;
 import com.wf.Bean.User;
 
 import java.util.HashMap;
@@ -34,7 +36,7 @@ public interface OpectionUserMassageDao {
      * 查询所有部门名称
      * @return
      */
-   List<Map<String,String>> selectDeptName();
+   List<Map<String,String>> selectDeptName(Dept dept);
 
     /**
      * 添加用户
@@ -49,4 +51,11 @@ public interface OpectionUserMassageDao {
      * @return
      */
    int deleteUser(String[] userids);
+
+    /**
+     * 条件查询用户
+     * @param map
+     * @return
+     */
+   List<User> conditionQuery (QueryMassage<User>  map);
 }

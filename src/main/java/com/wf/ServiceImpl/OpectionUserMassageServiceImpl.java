@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wf.Bean.Dept;
 import com.wf.Bean.Page;
+import com.wf.Bean.QueryMassage;
 import com.wf.Bean.User;
 import com.wf.Dao.OpectionUserMassageDao;
 import com.wf.Exception.LoginMassageIllicitException;
@@ -72,19 +73,24 @@ public class OpectionUserMassageServiceImpl implements OpectionUserMassageServic
 
     /**
      * 对当前用户的密码作出修改
-     * @param olderPas
-     * @param newPas
+     *
+     *
      * @return
      */
     @Override
     @Transactional
-    public boolean updateUserPassword(String olderPas, String newPas,User user) {
+    public boolean updateUserPassword(User user) {
+        System.err.println(user);
+        //获取新密码
+        String newPas=user.getLoginPwd();
         try {
             //判断当前用户输入的源密码是否正确
-            if(!OperationPassword.verifyPassword(user.getLoginPwd(), olderPas)){
-                System.out.println("这里这里");
-                return false;
+            if(!user.getOlderPas().equals(user.getOlderPasTwo())){
+                if(!OperationPassword.verifyPassword(user.getOlderPas(),user.getOlderPasTwo())){
+                    return false;
+                }
             }
+
             //加密新密码
             newPas=OperationPassword.getEncryptPassword(newPas);
             //设置新的密码
@@ -94,33 +100,12 @@ public class OpectionUserMassageServiceImpl implements OpectionUserMassageServic
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         //返回修改结果
         return oumd.updatePas(user)>0;
     }
 
 
-    /**
-     * 用于查询所有的用户
-     * @param page
-     * @return
-     */
-    @Override
-    public Page<User> selectUsertAll(Page<User> page) {
-        //配置分页当前页码，每页显示记录条数
-        PageHelper.startPage(page.getPageno(), page.getPageSize());
-        //执行查询
-        List<User> deptList  = oumd.selectAll();
-        //存储查询结果
-        page.setList(deptList);
-        //创建映射对象
-        PageInfo<User> pageInfo = new PageInfo<>(deptList);
-        page.setPages(pageInfo.getPages());//获取总页数  3
-        page.setTotal(pageInfo.getTotal());//获取总记录数 16  每页 10
-        page.setPages(pageInfo.getPages());//设置总页数
-        //对是否有上一页和下一页进行填充
-        page.setHaspreviousPageAndHasNextPage();
-        return page;
-    }
 
 
     /**
@@ -128,8 +113,9 @@ public class OpectionUserMassageServiceImpl implements OpectionUserMassageServic
      * @return
      */
     @Override
-    public List<Map<String,String>> selectDeptNameAll() {
-        return oumd.selectDeptName();
+    public List<Map<String,String>> selectDeptNameAll(Dept dept) {
+
+        return oumd.selectDeptName(dept);
     }
 
     /**
@@ -149,6 +135,7 @@ public class OpectionUserMassageServiceImpl implements OpectionUserMassageServic
         if("".equals(user.getAllowIps())||"".equals(user.getExpireTime())){
             user.setAllowIps(null);
             user.setExpireTime(null);
+            user.setLockState("1");
         }
         try {
             user.setLoginPwd(OperationPassword.getEncryptPassword(user.getLoginPwd()));
@@ -158,9 +145,41 @@ public class OpectionUserMassageServiceImpl implements OpectionUserMassageServic
         return  oumd.addUser(user)>0;
     }
 
+    /**
+     * 批量删除用户
+     * @param userids
+     * @return
+     */
     @Override
     @Transactional
     public boolean deleteUsers(String[] userids) {
         return  oumd.deleteUser(userids)>0;
     }
+
+    /**
+     * 条件查询用户
+     * @param massage
+     * @param massage
+     * @return
+     */
+    public QueryMassage<User>  conditionQuery(QueryMassage<User> massage){
+        //获取一个page
+        Page<User> page=massage.getUserPage();
+        //配置分页当前页码，每页显示记录条数
+        PageHelper.startPage(page.getPageno(), page.getPageSize());
+        //执行查询
+        List<User> userList = oumd.conditionQuery(massage);
+        //存储查询结果
+        page.setList(userList);
+        //创建映射对象
+        PageInfo<User> pageInfo = new PageInfo<>(userList);
+        page.setPages(pageInfo.getPages());//获取总页数  3
+        page.setTotal(pageInfo.getTotal());//获取总记录数 16  每页 10
+        page.setPages(pageInfo.getPages());//设置总页数
+        //对是否有上一页和下一页进行填充
+        page.setHaspreviousPageAndHasNextPage();
+        massage.setUserPage(page);
+        return massage;
+    }
+
 }

@@ -13,4 +13,5 @@ com\wf\Controller\OpectionUserMassage.class
 com\wf\Exception\LoginMassageIllicitException.class
 com\wf\Bean\Dept.class
 com\wf\Bean\Page.class
+com\wf\Bean\QueryMassage.class
 com\wf\Service\OpectionDeptMassageService.class
